@@ -18,14 +18,11 @@ public class Printer {
 
     public void append(String texst, String nameDoc) {
         append(texst);
-        queue = texst;
         name = nameDoc;
     }
 
     public void append(String texst, String nameDoc, int numberOfPages) {
         append(texst, nameDoc);
-        queue = texst;
-        name = nameDoc;
         numberOfPages = numberOfPages;
         sumNumberOfPages = sumNumberOfPages + numberOfPages;
     }
