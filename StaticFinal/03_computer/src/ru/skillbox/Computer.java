@@ -20,11 +20,7 @@ public class Computer {
         this.informationStorage = informationStorage;
         this.screen = screen;
         this.keyboard = keyboard;
-        allWeight = computerCPU.getWeight() +
-                randomAccessMemory.getWeight() +
-                informationStorage.getWeight() +
-                screen.getWeight() +
-                keyboard.getWeight();
+
     }
 
     public Computer setComputerCPU(ComputerCPU computerCPU) {
@@ -75,8 +71,13 @@ public class Computer {
         return keyboard;
     }
 
-    public static double increaseAllWeight() {
-        return Computer.allWeight;
+    public double increaseAllWeight(Computer computer) {
+        allWeight =computer.computerCPU.getWeight() +
+                computer.randomAccessMemory.getWeight() +
+                computer.informationStorage.getWeight() +
+                computer.screen.getWeight() +
+                computer.keyboard.getWeight();
+        return allWeight;
     }
 
     public String toString() {
@@ -103,7 +104,6 @@ public class Computer {
                 +"наличие подсветки-" +keyboard.getIlluminationKeyboard()+";"
                 +"вес-" +keyboard.getWeight()+ ";\n"
                 +"А также:"
-                +" общий вес-" +increaseAllWeight()+";"
                 +"Производитель -" +getVendor()+";"
                 +"Имя -" +getName()+".");
     }
