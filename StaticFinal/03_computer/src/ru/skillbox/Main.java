@@ -20,7 +20,7 @@ public class Main {
         System.out.println(computer.toString());
         System.out.println("\n");
         System.out.println(computer1.toString());
-        System.out.println(computer.increaseAllWeight(computer));
-        System.out.println(computer.increaseAllWeight(computer1));
+        System.out.println(computer.allWeight());
+        System.out.println(computer1.allWeight());
     }
 }

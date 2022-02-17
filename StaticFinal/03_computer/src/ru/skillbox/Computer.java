@@ -8,7 +8,7 @@ public class Computer {
     private final InformationStorage informationStorage;
     private final Screen screen;
     private final Keyboard keyboard;
-    private static double allWeight = 0;
+
 
     public Computer(String vendor, String name, ComputerCPU computerCPU,
                     RandomAccessMemory randomAccessMemory, InformationStorage informationStorage,
@@ -71,13 +71,12 @@ public class Computer {
         return keyboard;
     }
 
-    public double increaseAllWeight(Computer computer) {
-        allWeight =computer.computerCPU.getWeight() +
-                computer.randomAccessMemory.getWeight() +
-                computer.informationStorage.getWeight() +
-                computer.screen.getWeight() +
-                computer.keyboard.getWeight();
-        return allWeight;
+    public double allWeight() {
+        return computerCPU.getWeight() +
+                randomAccessMemory.getWeight() +
+                informationStorage.getWeight() +
+                screen.getWeight() +
+                keyboard.getWeight();
     }
 
     public String toString() {
@@ -104,6 +103,7 @@ public class Computer {
                 +"наличие подсветки-" +keyboard.getIlluminationKeyboard()+";"
                 +"вес-" +keyboard.getWeight()+ ";\n"
                 +"А также:"
+                +"Общий вес комьютера -"+allWeight()+";"
                 +"Производитель -" +getVendor()+";"
                 +"Имя -" +getName()+".");
     }
