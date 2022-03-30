@@ -7,6 +7,7 @@ public class Main {
 
         List<Employee> employee = new ArrayList<>();
 
+
         for (int i = 0; i < 180; i++) {
             company.heir (new Operator());
         }
@@ -15,7 +16,7 @@ public class Main {
             employee.add(new Manager());
         }
         for (int i = 0; i < 10; i++) {
-            employee.add(new TopManager(company));
+            employee.add(new TopManager());
         }
         company.heirAll(employee);
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 public class Company {
 
-    private int salesAll=15_000_000;
+
     List<Employee> employeeList=new ArrayList<Employee>();
 
     public void heir(Employee employee){
@@ -42,9 +42,6 @@ public class Company {
        }
     }
 
-    public int getSalesAll() {
-        return salesAll;
-    }
 
     public List<Employee> getEmployeeList() {
         return new ArrayList<>(employeeList);
