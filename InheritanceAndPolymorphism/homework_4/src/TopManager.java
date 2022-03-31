@@ -1,6 +1,7 @@
     public class TopManager extends Company implements Employee {
     private int wage = 60_000;
     static Company company;
+    int a;
 
 
     @Override

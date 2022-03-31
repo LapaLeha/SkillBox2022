@@ -16,5 +16,6 @@ public class Manager implements Employee {
     public int getMonthSalary() {
         wage += sale * 0.05;
         return wage;
+
     }
 }
