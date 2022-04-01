@@ -1,18 +1,19 @@
-    public class TopManager extends Company implements Employee {
+public class TopManager implements Employee {
     private int wage = 60_000;
-    static Company company;
-    int a;
+    private Company company;
 
+    public TopManager(Company company) {
+        this.company = company;
+    }
 
     @Override
-    public void heir(Employee employee) {
-        this.company=(Company)employee;
-        super.heir(employee);
+    public void setCompany(Company company) {
+        this.company=company;
     }
 
     @Override
     public int getMonthSalary() {
-        int salesAll = Manager.getSalesAll();
+        int salesAll = company.getSalesAll();
         if (salesAll > 10_000_000) {
             double result = wage+1.5*wage;
             return (int)result;

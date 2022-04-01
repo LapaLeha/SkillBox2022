@@ -7,7 +7,6 @@ public class Main {
 
         List<Employee> employee = new ArrayList<>();
 
-
         for (int i = 0; i < 180; i++) {
             company.heir (new Operator());
         }
@@ -16,7 +15,7 @@ public class Main {
             employee.add(new Manager());
         }
         for (int i = 0; i < 10; i++) {
-            employee.add(new TopManager());
+            employee.add(new TopManager(company));
         }
         company.heirAll(employee);
 
@@ -36,7 +35,7 @@ public class Main {
 
         System.out.println(employees1.size());
         for (int i=0;i<employees1.size();i+=2){
-                company.fire(employees1.get(i));
+            company.fire(employees1.get(i));
 
         }
         System.out.println(company.getEmployeeList().size());
