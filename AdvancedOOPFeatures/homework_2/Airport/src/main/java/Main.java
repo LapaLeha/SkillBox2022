@@ -1,6 +1,9 @@
 import com.skillbox.airport.Airport;
 import com.skillbox.airport.Flight;
-import com.skillbox.airport.Terminal;
+
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -10,28 +13,22 @@ public class Main {
 
         Airport airport=Airport.getInstance();
         airport.getAllAircrafts();
-        for (Flight f:findPlanesLeavingInTheNextTwoHours(airport)){
-            System.out.println(f);
-        }
+        System.out.println(findPlanesLeavingInTheNextTwoHours(airport));
     }
 
     public static List<Flight> findPlanesLeavingInTheNextTwoHours(Airport airport) {
 
        List<Flight> flights=new ArrayList<>();
-        Date date=new Date();
-        long d = date.getHours();
-        airport.getTerminals().forEach(terminal -> terminal.getFlights().stream()
-                .filter(flight -> (flight.getType()== Flight.Type.ARRIVAL)&&(flight.getDate().getHours()>=(d-2))));
+       LocalDateTime now = LocalDateTime.now();
+        airport.getTerminals().forEach(t ->t.getFlights().stream()
+                .filter(flight -> (flight.getType()== Flight.Type.DEPARTURE))
+                .filter(flight -> localDateTime(flight.getDate()).getHour()<=(now.plusHours(2).getHour()))
+                .filter(flight -> localDateTime(flight.getDate()).getHour()>=(now.minusHours(2).getHour()))
+                .forEach(flights::add));
 
-        for (Terminal t:airport.getTerminals()){
-            for (Flight flight:t.getFlights()){
-                if (flight.getType()== Flight.Type.DEPARTURE){
-                    if (flight.getDate().getHours()>=d-2){
-                        flights.add(flight);
-                    }
-                }
-            }
-        }
         return flights;
+    }
+    public static LocalDateTime localDateTime(Date date){
+        return Instant.ofEpochMilli(date.getTime()).atZone(ZoneId.systemDefault()).toLocalDateTime();
     }
 }
