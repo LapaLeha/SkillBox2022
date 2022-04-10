@@ -15,6 +15,23 @@ public class CustomerStorage {
         final int INDEX_PHONE = 3;
 
         String[] components = data.split("\\s+");
+        if (components.length!=4){
+            throw new IndexOutOfBoundsException("Wrong format.Correct format:\n"+
+                    "add Василий Петров vasily.petrov@gmail.com +79215637722");
+        }
+
+        String regex2 = "(.+)@(.+)?\\.[\\w]{2,3}";
+        boolean validEmail =  components[INDEX_EMAIL].matches(regex2);
+        if (!validEmail){
+            throw new IllegalArgumentException("Wrong format email");
+        }
+
+        String regex = "[+][7][0-9]{10}";
+        boolean validNumberPhone = components[INDEX_PHONE].matches(regex);
+        if (!validNumberPhone){
+            throw new IllegalArgumentException("Wrong format number phone.Correct format:\n"+" +7XXXXXXXXXX");
+        }
+
         String name = components[INDEX_NAME] + " " + components[INDEX_SURNAME];
         storage.put(name, new Customer(name, components[INDEX_PHONE], components[INDEX_EMAIL]));
     }
