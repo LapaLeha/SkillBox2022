@@ -13,6 +13,7 @@ public class RouteCalculator {
 
     public RouteCalculator(StationIndex stationIndex) {
         this.stationIndex = stationIndex;
+
     }
 
     public List<Station> getShortestRoute(Station from, Station to) {
@@ -20,12 +21,10 @@ public class RouteCalculator {
         if (route != null) {
             return route;
         }
-
         route = getRouteWithOneConnection(from, to);
-        if (route != null) {
+        if (route != null&&calculateDuration(route)!=0) {
             return route;
         }
-
         route = getRouteWithTwoConnections(from, to);
         return route;
     }
@@ -59,11 +58,9 @@ public class RouteCalculator {
                     direction = -1;
                 }
             }
-
             if (direction != 0) {
                 route.add(station);
             }
-
             if ((direction == 1 && station.equals(to)) ||
                     (direction == -1 && station.equals(from))) {
                 break;
@@ -79,9 +76,7 @@ public class RouteCalculator {
         if (from.getLine().equals(to.getLine())) {
             return null;
         }
-
         List<Station> route = new ArrayList<>();
-
         List<Station> fromLineStations = from.getLine().getStations();
         List<Station> toLineStations = to.getLine().getStations();
         for (Station srcStation : fromLineStations) {
@@ -97,6 +92,7 @@ public class RouteCalculator {
                 }
             }
         }
+
         return route;
     }
 
