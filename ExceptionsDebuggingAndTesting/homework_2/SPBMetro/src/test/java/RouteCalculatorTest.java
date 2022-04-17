@@ -114,9 +114,4 @@ public class RouteCalculatorTest extends TestCase {
         double exspected = 17.0;
         assertEquals(exspected, actual);
     }
-
-    @Override
-    protected void tearDown() throws Exception {
-
-    }
 }

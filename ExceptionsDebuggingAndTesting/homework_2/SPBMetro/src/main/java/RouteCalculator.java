@@ -22,7 +22,10 @@ public class RouteCalculator {
             return route;
         }
         route = getRouteWithOneConnection(from, to);
-        if (route != null&&calculateDuration(route)!=0) {
+        if (route.size() == 0) {
+            route = null;
+        }
+        if (route != null) {
             return route;
         }
         route = getRouteWithTwoConnections(from, to);
@@ -92,7 +95,6 @@ public class RouteCalculator {
                 }
             }
         }
-
         return route;
     }
 
