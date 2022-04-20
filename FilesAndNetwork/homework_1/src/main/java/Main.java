@@ -32,9 +32,7 @@ public class Main {
     }
 
     public static void main(String[] args) {
-        //"D:/Леша/Обучение/Java/m12"
-
-        System.out.print("Введите путь до папки:\n");
+         System.out.print("Введите путь до папки:\n");
         Scanner scanner = new Scanner(System.in);
         while (true) {
             String input = scanner.nextLine();
