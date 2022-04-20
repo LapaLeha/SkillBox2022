@@ -41,7 +41,7 @@ public class Main {
                 System.out.println("Ошибка ввода");
                 continue;
             }
-            System.out.println("Размер папки " + input + " cоставляет "
+            System.out.println("Размер папки " + input + " cоставляет - "
                     + convertToStringRepresentation(size));
         }
     }
