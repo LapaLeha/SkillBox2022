@@ -22,9 +22,8 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
         Elements elements = getPage().select("img");
-
         for (Element element : elements) {
-             try {
+            try {
                 URL url = new URL(element.absUrl("src"));
                 InputStream inputStream = url.openStream();
                 String nameImages = element.absUrl("src").replaceAll(".+/(.+\\.\\w{3,4})", "$1");
@@ -33,8 +32,7 @@ public class Main {
                     System.out.println(nameImages);
                     Files.copy(inputStream, new File(path).toPath());
                 }
-            }
-            catch (FileAlreadyExistsException ex){
+            } catch (FileAlreadyExistsException ex) {
                 ex.getStackTrace();
             }
         }
