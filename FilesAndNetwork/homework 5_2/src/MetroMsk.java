@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class MetroMsk {
-    private final Map<String, Line> number2line;
+    private final HashMap <String, Line> number2line;
     private final TreeSet<Station> stations;
     //private final Map<Station, TreeSet<Station>> connections;
 
@@ -35,7 +35,7 @@ public class MetroMsk {
         return number2line.get(number);
     }
     public List<Line> getLines () {
-        List <Line> l = null;
+        List <Line> l = new ArrayList<>();
         for (Map.Entry<String, Line> entry : number2line .entrySet()) {
             l.add(entry.getValue());
         }

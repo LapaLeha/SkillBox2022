@@ -67,7 +67,7 @@ public class Main {
 
         try {
             FileWriter file = new FileWriter(fileWrite);
-            file.write("{\n\"" + "Lines\" : " + "[ " + "\n");
+            file.write("{\n\"" + "lines\" : " + "[ " + "\n");
             for (int i = 0; i < lines.size(); i++) {
                 JSONObject object1 = new JSONObject();
                 object1.put("name", lines.get(i).getName());
@@ -75,25 +75,45 @@ public class Main {
                 if (i != lines.size() - 1) {
                     file.write(object1.toJSONString() + "," + "\n");
                 } else {
-                    file.write(object1.toJSONString() + "],\n" + "  \"Stations\" : [\n");
+                    file.write(object1.toJSONString() + "],\n" + "  \"stations\" : {\n");
                 }
             }
+            //JSONObject object2 = new JSONObject();
+
+            String stationsAll = "";
+            String stationsIter = "";
+            String stationsIterStart = "";
+            String stationsIterFinish = "";
+
             for (int j = 0; j < lines.size(); j++) {
-                JSONObject object2 = new JSONObject();
-                String stationsLineK = "";
+                stationsIter = "";
+                stationsIterStart = "";
+                stationsIterFinish = "";
+                //stationsAll += "\"" + lines.get(j).getNumber() + "\": " + "[ " + "\n";
                 for (int k = 0; k < lines.get(j).getStations().size(); k++) {
+                    String[] arrayStations = new String[lines.get(j).getStations().size()];
                     if (k != lines.get(j).getStations().size() - 1) {
-                        stationsLineK += lines.get(j).getStations().get(k) + ", ";
+                        arrayStations[k] = String.valueOf(lines.get(j).getStations().get(k));
+                        stationsIter += "\"" + arrayStations[k] + "\", " + "\n";
+                        //stationsLineK += lines.get(j).getStations().get(k) + ", ";
                     } else {
-                        stationsLineK += lines.get(j).getStations().get(k);
+                        stationsIterStart = "\"" + lines.get(j).getNumber() + "\": " + "[ " + "\n";
+                        arrayStations[k] = String.valueOf(lines.get(j).getStations().get(k));
+                        stationsIterFinish = stationsIterStart + stationsIter + "\"" + arrayStations[k] + "\"" + "\n" + "], " + "\n";
+                        //stationsLineK += lines.get(j).getStations().get(k)+"],\n";
                     }
                 }
+                stationsAll += stationsIterFinish;
 
-                object2.put(lines.get(j).getNumber(), stationsLineK.trim());
+                /*object2.put(lines.get(j).getNumber(), stationsLineK.trim());
                 if (j != lines.size() - 1) {
                     file.write(object2.toJSONString() + "," + "\n");
-                } else file.write(object2.toJSONString() + "\n]\n}");
+                } else file.write(object2.toJSONString() + "\n]\n}");*/
             }
+            int count = stationsAll.length();
+            String json1 = stationsAll.substring(0, count - 3);
+            String json = json1 +"\n"+ "}\n" + "}";
+            file.write(json);
             file.flush();
             file.close();
         } catch (IOException ex) {
@@ -102,11 +122,11 @@ public class Main {
 
         createMetroMsk();
 
-/*        ArrayList<Line> linesR = (ArrayList<Line>) metroMsk.getLines();
+        ArrayList<Line> linesR = (ArrayList<Line>) metroMsk.getLines();
         for (int i = 0; i < linesR.size(); i++) {
             int countStation = linesR.get(i).getStations().size();
             System.out.println("Количество станций на " + linesR.get(i).getName() + " - " + countStation);
-        }*/
+        }
 /*        for (Map.Entry<String, String> entry : lineMskMetro.entrySet()) {
             String key = entry.getKey();
             String value = entry.getValue();
@@ -115,11 +135,10 @@ public class Main {
     }
 
     private static void createMetroMsk() {
-       metroMsk = new MetroMsk();
+        metroMsk = new MetroMsk();
         try {
             JSONParser parser = new JSONParser();
             JSONObject jsonData = (JSONObject) parser.parse(getJsonFile());
-
 
 
             JSONArray linesArray = (JSONArray) jsonData.get("lines");

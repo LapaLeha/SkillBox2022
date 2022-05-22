@@ -32,6 +32,8 @@ public class Main {
                     System.out.println(nameImages);
                     Files.copy(inputStream, new File(path).toPath());
                 }
+                inputStream.close();
+
             } catch (FileAlreadyExistsException ex) {
                 ex.getStackTrace();
             }

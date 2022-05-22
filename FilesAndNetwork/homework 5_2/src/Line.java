@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class Line /*implements Comparable<Line>*/
+public class Line implements Comparable<Line>
 {
     private String number;
     private String name;
@@ -34,15 +34,16 @@ public class Line /*implements Comparable<Line>*/
         return stations;
     }
 
-/*    @Override
+    @Override
     public int compareTo(Line line)
     {
-        return Integer.compare(number, line.getNumber());
-    }*/
+        //return Integer.compare(number, line.getNumber());
+        return number.compareToIgnoreCase(line.getNumber());
+    }
 
-/*    @Override
+    @Override
     public boolean equals(Object obj)
     {
         return compareTo((Line) obj) == 0;
-    }*/
+    }
 }

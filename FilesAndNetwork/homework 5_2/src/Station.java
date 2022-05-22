@@ -1,4 +1,4 @@
-public class Station /*implements Comparable<Station>*/
+public class Station implements Comparable<Station>
 {
     private Line line;
     private String name;
@@ -18,7 +18,7 @@ public class Station /*implements Comparable<Station>*/
     {
         return name;
     }
-/*    @Override
+    @Override
     public int compareTo(Station station)
     {
         int lineComparison = line.compareTo(station.getLine());
@@ -32,7 +32,7 @@ public class Station /*implements Comparable<Station>*/
     public boolean equals(Object obj)
     {
         return compareTo((Station) obj) == 0;
-    }*/
+    }
 
     @Override
     public String toString()
