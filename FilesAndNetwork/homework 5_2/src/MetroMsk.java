@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class MetroMsk {
     private final HashMap <String, Line> number2line;

@@ -37,7 +37,6 @@ public class Line implements Comparable<Line>
     @Override
     public int compareTo(Line line)
     {
-        //return Integer.compare(number, line.getNumber());
         return number.compareToIgnoreCase(line.getNumber());
     }
 

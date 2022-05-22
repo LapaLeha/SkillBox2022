@@ -12,11 +12,9 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 public class Main {
     private static final String fileWrite = "data/file1.json";
-    private static final String fileWrite2 = "data/spbMetro222.json";
     private static MetroMsk metroMsk;
 
     public static void main(String[] args) {
@@ -30,20 +28,9 @@ public class Main {
 
         Elements elementsLines = doc.select("span.js-metro-line");
         ArrayList<Line> lines = new ArrayList<>();
-        // ArrayList<String> lineNumbers = new ArrayList<>();
         for (Element e : elementsLines) {
             lines.add(new Line(e.attr("data-line"), e.text()));
-            //System.out.println(e.text());
         }
-/*        for (Element e : elementsLines) {
-            lineNumbers.add(e.attr("data-line"));
-            System.out.println(e.attr("data-line"));
-        }*/
-
-
-/*        for (int i = 0; i < lines.size(); i++) {
-            System.out.println(lines.get(i).getNumber() + " - " + lines.get(i).getName());
-        }*/
 
         Elements elementsStations = doc.select("div.js-metro-stations");
         ArrayList<String> stationsOnLine = new ArrayList<>();
@@ -59,12 +46,6 @@ public class Main {
             }
         }
 
-        for (int i = 0; i < lines.size(); i++) {
-            System.out.println(lines.get(i).getNumber() + " - " + lines.get(i).getName() + ":"
-                    + "\n" + lines.get(i).getStations());
-        }
-
-
         try {
             FileWriter file = new FileWriter(fileWrite);
             file.write("{\n\"" + "lines\" : " + "[ " + "\n");
@@ -78,7 +59,6 @@ public class Main {
                     file.write(object1.toJSONString() + "],\n" + "  \"stations\" : {\n");
                 }
             }
-            //JSONObject object2 = new JSONObject();
 
             String stationsAll = "";
             String stationsIter = "";
@@ -89,26 +69,19 @@ public class Main {
                 stationsIter = "";
                 stationsIterStart = "";
                 stationsIterFinish = "";
-                //stationsAll += "\"" + lines.get(j).getNumber() + "\": " + "[ " + "\n";
                 for (int k = 0; k < lines.get(j).getStations().size(); k++) {
                     String[] arrayStations = new String[lines.get(j).getStations().size()];
                     if (k != lines.get(j).getStations().size() - 1) {
                         arrayStations[k] = String.valueOf(lines.get(j).getStations().get(k));
                         stationsIter += "\"" + arrayStations[k] + "\", " + "\n";
-                        //stationsLineK += lines.get(j).getStations().get(k) + ", ";
                     } else {
                         stationsIterStart = "\"" + lines.get(j).getNumber() + "\": " + "[ " + "\n";
                         arrayStations[k] = String.valueOf(lines.get(j).getStations().get(k));
                         stationsIterFinish = stationsIterStart + stationsIter + "\"" + arrayStations[k] + "\"" + "\n" + "], " + "\n";
-                        //stationsLineK += lines.get(j).getStations().get(k)+"],\n";
                     }
                 }
                 stationsAll += stationsIterFinish;
 
-                /*object2.put(lines.get(j).getNumber(), stationsLineK.trim());
-                if (j != lines.size() - 1) {
-                    file.write(object2.toJSONString() + "," + "\n");
-                } else file.write(object2.toJSONString() + "\n]\n}");*/
             }
             int count = stationsAll.length();
             String json1 = stationsAll.substring(0, count - 3);
@@ -121,17 +94,11 @@ public class Main {
         }
 
         createMetroMsk();
-
         ArrayList<Line> linesR = (ArrayList<Line>) metroMsk.getLines();
         for (int i = 0; i < linesR.size(); i++) {
             int countStation = linesR.get(i).getStations().size();
             System.out.println("Количество станций на " + linesR.get(i).getName() + " - " + countStation);
         }
-/*        for (Map.Entry<String, String> entry : lineMskMetro.entrySet()) {
-            String key = entry.getKey();
-            String value = entry.getValue();
-            System.out.println(key + " = " + value);
-        }*/
     }
 
     private static void createMetroMsk() {
@@ -147,8 +114,6 @@ public class Main {
             JSONObject stationsObject = (JSONObject) jsonData.get("stations");
             parseStations(stationsObject);
 
-/*            JSONArray connectionsArray = (JSONArray) jsonData.get("connections");
-            parseConnections(connectionsArray);*/
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -157,7 +122,6 @@ public class Main {
     private static void parseStations(JSONObject stationsObject) {
         stationsObject.keySet().forEach(lineNumberObject ->
         {
-            //String lineNumber = String.valueOf(Integer.parseInt((String) lineNumberObject));
             Line line = metroMsk.getLine((String) lineNumberObject);
             JSONArray stationsArray = (JSONArray) stationsObject.get(lineNumberObject);
             stationsArray.forEach(stationObject ->
