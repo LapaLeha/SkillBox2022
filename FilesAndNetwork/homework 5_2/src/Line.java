@@ -29,6 +29,7 @@ public class Line implements Comparable<Line>
         stations.add(station);
     }
 
+
     public List<Station> getStations()
     {
         return stations;

@@ -18,6 +18,7 @@ public class Station implements Comparable<Station>
     {
         return name;
     }
+
     @Override
     public int compareTo(Station station)
     {
