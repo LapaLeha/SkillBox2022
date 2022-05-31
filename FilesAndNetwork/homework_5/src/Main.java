@@ -10,6 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Main {
 
@@ -21,6 +23,22 @@ public class Main {
 
 
         //для парсинга самого сайта будет такой вариант:
+
+int[]ar=new int[10];
+        System.out.println(ar[1]);
+
+        String t = "t-icon-metroln ln-10";
+String regex = "ln-.*";
+        Pattern pattern=Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(t);
+        while (matcher.find()) {
+            int start = matcher.start()+3;
+            int end = matcher.end();
+            String vd = t.substring(start, end);
+            System.out.println(vd);
+        }
+
+
         String webSiteURL = "https://skillbox-java.github.io/";
         Document doc = null;
         try {

@@ -27,10 +27,10 @@ public class Main {
                 String coursesIter = nameCourses.get(i);
                 String commandEnd = commandStart+ " = \"" + coursesIter + "\" ORDER BY pl.subscription_date";
                 ResultSet resultSet2 = statement.executeQuery(commandEnd);
-                double countPurchase = 1;
+                double countPurchase = 0;
                 while (resultSet2.next()){
 
-                    countPurchase+=countPurchase;
+                    countPurchase+=1;
                 }
                 countPurchase=countPurchase/12;
                 System.out.println("Cреднее количество покупок в месяц за 2018 год для курса "+"\""+coursesIter+ "\""
