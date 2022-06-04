@@ -5,6 +5,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+
 public class Main {
     public static void main(String[] args) {
 
@@ -14,12 +15,14 @@ public class Main {
 
         Session session = sessionFactory.openSession();
 
-        Course course = session.get(Course.class,3);
-        String nameCourse = course.getName();
-        int studentsCount = course.getStudentsCount();
-        System.out.println("на курсе "+course.getName()+" учится "+studentsCount +" человек");
+        Course course = session.get(Course.class, 3);
+        System.out.println(course.getName());
+
+        Subscription subscription = session.get(Subscription.class, new Key(2,1));
+        System.out.println(subscription.getStudent().getName());
 
         sessionFactory.close();
+
 
     }
 }
