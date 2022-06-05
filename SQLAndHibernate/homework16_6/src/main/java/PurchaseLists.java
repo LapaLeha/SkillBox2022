@@ -54,4 +54,12 @@ public class PurchaseLists {
         this.subscriptionData = subscriptionData;
     }
 
+    public KeyPurchaseList getId() {
+        return id;
+    }
+
+    public void setId(KeyPurchaseList id) {
+        this.id = id;
+    }
+
 }
