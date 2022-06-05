@@ -24,13 +24,6 @@ public class Course {
     @OneToMany(mappedBy = "course",cascade = CascadeType.ALL, orphanRemoval = true)
     List<Subscription> subscriptions;
 
-    public List<Subscription> getSubscriptions() {
-        return subscriptions;
-    }
-
-    public void setSubscriptions(List<Subscription> subscriptions) {
-        this.subscriptions = subscriptions;
-    }
 
     @Column(name = "students_count")
     private int studentsCount;
@@ -41,13 +34,13 @@ public class Course {
     private float pricePerHour;
 
 
-    @ManyToMany (cascade = CascadeType.ALL)
-    @JoinTable (name = "Subscriptions",
-    joinColumns = {@JoinColumn(name = "course_id")},
-            inverseJoinColumns = {@JoinColumn(name = "student_id")}
-    )
-    private List<Student> students;
+    public List<Subscription> getSubscriptions() {
+        return subscriptions;
+    }
 
+    public void setSubscriptions(List<Subscription> subscriptions) {
+        this.subscriptions = subscriptions;
+    }
 
     public int getId() {
         return id;
@@ -121,11 +114,4 @@ public class Course {
         this.pricePerHour = pricePerHour;
     }
 
-    public List<Student> getStudents() {
-        return students;
-    }
-
-    public void setStudents(List<Student> students) {
-        this.students = students;
-    }
 }

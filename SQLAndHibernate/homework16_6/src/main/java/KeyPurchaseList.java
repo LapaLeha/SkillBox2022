@@ -12,7 +12,6 @@ public class KeyPurchaseList implements Serializable {
     private String courseName;
 
     public KeyPurchaseList() {
-
     }
 
     public KeyPurchaseList(String studentName, String courseName) {

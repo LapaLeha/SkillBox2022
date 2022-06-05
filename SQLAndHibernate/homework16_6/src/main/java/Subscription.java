@@ -9,11 +9,11 @@ public class Subscription {
     private Key id;
 
     @ManyToOne
-    @JoinColumn(name = "student_id",insertable = false,updatable = false)
+    @MapsId("studentId")
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "course_id",insertable = false,updatable = false)
+    @MapsId("courseId")
     private Course course;
 
     @Column(name = "subscription_date")
