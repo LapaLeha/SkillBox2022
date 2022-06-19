@@ -1,5 +1,4 @@
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Random;
 
 public class Bank extends Thread {
@@ -40,14 +39,13 @@ public class Bank extends Thread {
         if (moneySource < amount) {
             System.out.println("Not enough money at source account");
         }
-        if (moneySource >= amount && !isBlocked) {
+        if (moneySource >= amount && !isBlocked&&!fromAccountNum.equals(toAccountNum)) {
             synchronized (toAccountNum) {
                 synchronized (fromAccountNum) {
                     accountHashMap.get(fromAccountNum).setMoney(moneySource - amount);
                     accountHashMap.get(toAccountNum).setMoney(moneyTarget + amount);
                     System.out.println("Transfer of " + amount + " from account # " + fromAccountNum
                             + " to account # " + toAccountNum + " is completed\n");
-
                 }
             }
         } else {
@@ -57,8 +55,8 @@ public class Bank extends Thread {
 
     public void createRandomTransfers(Bank bank, HashMap bankAccounts, int transfersNumber) {
         for (int i = 0; i < transfersNumber; i++) {
-            String accFrom = ("" + (int) (Math.random() * 10));
-            String accTo = ("" + (int) (Math.random() * 20));
+            String accFrom = ("" + (int) (Math.random() * 500));
+            String accTo = ("" + (int) (Math.random() * 500));
             long amountRnd = (long) (Math.random() * 55000 + 1);
             System.out.println("Try to transfer " + amountRnd + " from account #" + accFrom + " to account #" + accTo);
             synchronized (accTo) {
@@ -71,7 +69,6 @@ public class Bank extends Thread {
 
     public HashMap createAccountCollection(int accountsQuantity) {
         HashMap<String, Account> bankAccounts = new HashMap<>();
-        long sum = 0;
         for (int i = 0; i < accountsQuantity; i++) {
             Account account = new Account(Integer.toString(i), (long) (Math.random() * 120000), false);
             bankAccounts.put(Integer.toString(i), account);
@@ -91,7 +88,7 @@ public class Bank extends Thread {
 
         bank.createRandomTransfers(bank, bankAccounts, Main.numTransfers);
         System.out.println(bank.getSumAllAccounts(bankAccounts) + "!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-        String num = ("" + (int) (Math.random() * 20));
+        String num = ("" + (int) (Math.random() * 3000));
         System.out.println(num + "  " + bank.getBalance(bankAccounts, num) + "\n");
         System.out.println("Thread is finished!\n");
 

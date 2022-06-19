@@ -2,8 +2,8 @@ import java.util.HashMap;
 
 public class Main {
 
-    public final static int bankAccountQ = 30;
-    public final static int numTransfers = 10;
+    public final static int bankAccountQ = 3000;
+    public final static int numTransfers = 200;
 
     public static void main(String[] args) {
 
