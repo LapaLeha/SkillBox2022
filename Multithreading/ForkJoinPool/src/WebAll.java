@@ -3,10 +3,12 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.RecursiveTask;
 
-public class WebAll extends RecursiveTask<String> {
+public class WebAll extends RecursiveTask<List<String>> {
 
     private String url;
     private static CopyOnWriteArraySet<String> allLinks = new CopyOnWriteArraySet<>();
@@ -14,18 +16,20 @@ public class WebAll extends RecursiveTask<String> {
     public WebAll(String url) {
         this.url = url;
     }
-
     @Override
-    protected String compute() {
-        StringBuffer sb = new StringBuffer(url + "\n");
+    protected List<String> compute() {
         CopyOnWriteArraySet<WebAll> subTask = new CopyOnWriteArraySet<>();
+        List <String> a = new ArrayList<>();
+
+        a.add(url);
 
         getChildren(subTask);
+
         for (WebAll link : subTask) {
-            sb.append(link.join());
+            a.addAll(link.join());
         }
 
-        return sb.toString();
+        return a;
     }
 
     private void getChildren(CopyOnWriteArraySet<WebAll> subTask) {
@@ -48,5 +52,4 @@ public class WebAll extends RecursiveTask<String> {
         } catch (InterruptedException | IOException ignored) {
         }
     }
-
 }
