@@ -8,14 +8,12 @@ import java.util.concurrent.RecursiveTask;
 
 public class WebAll extends RecursiveTask<String> {
 
-
     private String url;
     private static CopyOnWriteArraySet<String> allLinks = new CopyOnWriteArraySet<>();
 
     public WebAll(String url) {
-        this.url = url.trim();
+        this.url = url;
     }
-
 
     @Override
     protected String compute() {
@@ -34,20 +32,21 @@ public class WebAll extends RecursiveTask<String> {
         Document doc;
         Elements elements;
         try {
-            Thread.sleep(110);
+            Thread.sleep(150);
             doc = Jsoup.connect(url).get();
             elements = doc.select("a");
             for (Element el : elements) {
                 String attr = el.attr("abs:href");
                 if (!attr.isEmpty() && attr.startsWith(url) && !allLinks.contains(attr) && !attr
                         .contains("#")) {
-                    WebAll linkExecutor = new WebAll(attr);
-                    linkExecutor.fork();
-                    subTask.add(linkExecutor);
+                    WebAll webAll = new WebAll(attr);
+                    webAll.fork();
+                    subTask.add(webAll);
                     allLinks.add(attr);
                 }
             }
         } catch (InterruptedException | IOException ignored) {
         }
     }
+
 }
