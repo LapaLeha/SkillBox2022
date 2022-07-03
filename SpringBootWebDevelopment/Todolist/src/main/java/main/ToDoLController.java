@@ -47,4 +47,23 @@ public class ToDoLController {
         }
         return new ResponseEntity(toDol, HttpStatus.OK);
     }
+
+    @PatchMapping("/todolist/{id}")
+    public ResponseEntity patchName (int id,String nameNew ) {
+        TodoL toDol = Storage.patchNameToDoL(id,nameNew);
+        if (toDol == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return new ResponseEntity(toDol, HttpStatus.OK);
+    }
+
+    @PatchMapping("/todolist/{id}")
+    public ResponseEntity patchDate (int id) {
+        TodoL toDol = Storage.patchDateToDoL(id);
+        if (toDol == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
+        }
+        return new ResponseEntity(toDol, HttpStatus.OK);
+    }
+
 }

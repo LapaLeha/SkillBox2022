@@ -1,12 +1,11 @@
 package response;
 
-import java.util.Date;
 
-public class TodoL {
+public class User {
 
     private int id;
     private String name;
-    private Date date;
+    private int age;
 
     public int getId() {
         return id;
@@ -24,13 +23,11 @@ public class TodoL {
         this.name = name;
     }
 
-    public Date getDate() {
-        return date;
+    public int getAge() {
+        return age;
     }
 
-    public void setDate() {
-        this.date = new Date();
+    public void setAge(int age) {
+        this.age = age;
     }
-
-
 }
