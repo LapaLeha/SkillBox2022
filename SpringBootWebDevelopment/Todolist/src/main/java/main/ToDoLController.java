@@ -1,69 +1,54 @@
 package main;
 
+import main.model.TodoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import response.TodoL;
+import main.model.TodoL;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class ToDoLController {
 
-    @RequestMapping(value = "/todolist/", method = RequestMethod.GET)
-    public List<TodoL> list() {
-        return Storage.getToDoL();
-    }
+    @Autowired
+    private TodoRepository todoRepository;
 
-    @RequestMapping(value = "/todolist/", method = RequestMethod.POST)
-    public TodoL add(String name) {
-        return Storage.addToDoL(name);
+    @GetMapping("/todolist/")
+    public List<TodoL> list() {
+        Iterable<TodoL> todoLInterable = todoRepository.findAll();
+        ArrayList<TodoL> todoLS = new ArrayList<>();
+        for (TodoL todo : todoLInterable) {
+            todoLS.add(todo);
+        }
+        return todoLS;
+    }
+    @PutMapping("/todolist/")
+    public int add(TodoL todoL) {
+        TodoL newTodoL = todoRepository.save(todoL);
+        return newTodoL.getId();
     }
 
     @GetMapping("/todolist/{id}")
-    public ResponseEntity get(int id) {
-        TodoL toDol = Storage.getToDoL(id);
-        if (toDol == null) {
+    public ResponseEntity get(@PathVariable int id) {
+        Optional<TodoL> optionalTodoL = todoRepository.findById(id);
+        if (optionalTodoL.isPresent()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
         }
-        return new ResponseEntity(toDol, HttpStatus.OK);
+        return new ResponseEntity(optionalTodoL.get(), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/todolist/", method = RequestMethod.DELETE)
-    public void deleteToDoL(int id) {
-        Storage.deleteToDoL(id);
+    @DeleteMapping("/todolist/")
+    public void deleteToDoL(@PathVariable int id) {
+        todoRepository.deleteById(id);
     }
 
-    @RequestMapping(value = "/todolist/", method = RequestMethod.DELETE)
+    @DeleteMapping("/todolist/")
     public void deleteToDoLAll() {
-        Storage.deleteToDoLAll();
-    }
-
-    @PutMapping("/todolist/{id}")
-    public ResponseEntity put (int id,TodoL toDolNew) {
-        TodoL toDol = Storage.putToDoL(id,toDolNew);
-        if (toDol == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-        return new ResponseEntity(toDol, HttpStatus.OK);
-    }
-
-    @PatchMapping("/todolist/{id}")
-    public ResponseEntity patchName (int id,String nameNew ) {
-        TodoL toDol = Storage.patchNameToDoL(id,nameNew);
-        if (toDol == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-        return new ResponseEntity(toDol, HttpStatus.OK);
-    }
-
-    @PatchMapping("/todolist/{id}")
-    public ResponseEntity patchDate (int id) {
-        TodoL toDol = Storage.patchDateToDoL(id);
-        if (toDol == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(null);
-        }
-        return new ResponseEntity(toDol, HttpStatus.OK);
+        todoRepository.deleteAll();
     }
 
 }

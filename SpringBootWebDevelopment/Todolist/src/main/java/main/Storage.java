@@ -1,6 +1,6 @@
 package main;
-import response.TodoL;
-import response.User;
+import main.model.User;
+import main.model.TodoL;
 
 import java.util.*;
 
