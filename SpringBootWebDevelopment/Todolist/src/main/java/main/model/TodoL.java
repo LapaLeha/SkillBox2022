@@ -12,7 +12,7 @@ public class TodoL {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
     private String name;
-    private Date date;
+    //private Date date;
 
     public int getId() {
         return id;
@@ -30,13 +30,15 @@ public class TodoL {
         this.name = name;
     }
 
-    public Date getDate() {
+/*    public Date getDate() {
         return date;
-    }
+    }*/
 
+/*
     public void setDate() {
         this.date = new Date();
     }
+*/
 
 
 }

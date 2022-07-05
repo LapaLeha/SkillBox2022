@@ -22,7 +22,7 @@ public class Storage {
         TodoL todoL1 = new TodoL();
         todoL1.setName(name);
         todoL1.setId(id);
-        todoL1.setDate();
+        //todoL1.setDate();
         todoL.put(id, todoL1);
         return todoL1;
     }
@@ -52,7 +52,7 @@ public class Storage {
 
     public static TodoL patchDateToDoL (int toDoLId) {
         if (todoL.containsKey(toDoLId)) {
-            todoL.get(toDoLId).setDate();
+            //todoL.get(toDoLId).setDate();
             return todoL.get(toDoLId);
         }
         return null;
