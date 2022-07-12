@@ -1,7 +1,6 @@
 import javax.swing.*;
 
 public class MainForm {
-
     private JPanel mainPanel;
     private JButton expandButton;
     private JButton collapseButton;
@@ -17,7 +16,6 @@ public class MainForm {
     private JPanel textPanel;
     private JLabel errorMessage;
     private String fullNameText;
-
 
     public MainForm()
     {
@@ -86,9 +84,10 @@ public class MainForm {
             }
         });
     }
-
     public JPanel getMainPanel()
     {
         return mainPanel;
     }
+
+
 }
