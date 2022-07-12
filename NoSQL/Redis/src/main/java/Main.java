@@ -35,7 +35,7 @@ public class Main {
                 redis.logPageVisit(user_id);
                 Thread.sleep(SLEEP);
             }
-            //выбираем кого показывать на главной странице из 2000 пользователей
+            //выбираем кого показывать на главной странице из 1000 пользователей
             int showRegularUserId = (int) (Math.random() * USERS);
 
             // в 1 из 10 случаев пользователь оплачивает показ без очереди
