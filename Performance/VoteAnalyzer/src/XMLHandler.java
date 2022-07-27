@@ -45,7 +45,6 @@ public class XMLHandler extends DefaultHandler {
                 builder.append(" - ");
                 builder.append(count);
                 builder.append("\n");
-                //System.out.println(voter.toString() + " - " + count);
             }
         }
         System.out.println(builder.toString());
