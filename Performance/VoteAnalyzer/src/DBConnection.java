@@ -3,24 +3,31 @@ import java.sql.*;
 public class DBConnection {
 
     private static Connection connection;
+    private static final int batchSize = 4;
+    private static PreparedStatement preparedStatement = null;
 
     private static String dbName = "learn";
     private static String dbUser = "root";
-    private static String dbPass = "ya78yrc8n4w3984";
+    private static String dbPass = "4521Kfgfx26)";
 
     public static Connection getConnection() {
         if (connection == null) {
             try {
                 connection = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/" + dbName +
-                        "?user=" + dbUser + "&password=" + dbPass);
+                        "jdbc:mysql://localhost:3306/" + dbName +
+                                "?user=" + dbUser + "&password=" + dbPass);
+                connection.setAutoCommit(false);
                 connection.createStatement().execute("DROP TABLE IF EXISTS voter_count");
                 connection.createStatement().execute("CREATE TABLE voter_count(" +
-                    "id INT NOT NULL AUTO_INCREMENT, " +
-                    "name TINYTEXT NOT NULL, " +
-                    "birthDate DATE NOT NULL, " +
-                    "`count` INT NOT NULL, " +
-                    "PRIMARY KEY(id))");
+                        "id INT NOT NULL AUTO_INCREMENT, " +
+                        "name TINYTEXT NOT NULL, " +
+                        "birthDate DATE NOT NULL, " +
+                        "`count` INT NOT NULL, " +
+                        "PRIMARY KEY(id), " +
+                        "KEY(name(50)));");
+                connection.commit();
+                String insertSQL = "INSERT INTO voter_count (name, birthDate,count) VALUES (?,?,?)";
+                preparedStatement = connection.prepareStatement(insertSQL);
             } catch (SQLException e) {
                 e.printStackTrace();
             }
@@ -28,29 +35,63 @@ public class DBConnection {
         return connection;
     }
 
-    public static void countVoter(String name, String birthDay) throws SQLException {
-        birthDay = birthDay.replace('.', '-');
-        String sql =
-            "SELECT id FROM voter_count WHERE birthDate='" + birthDay + "' AND name='" + name + "'";
-        ResultSet rs = DBConnection.getConnection().createStatement().executeQuery(sql);
-        if (!rs.next()) {
-            DBConnection.getConnection().createStatement()
-                .execute("INSERT INTO voter_count(name, birthDate, `count`) VALUES('" +
-                    name + "', '" + birthDay + "', 1)");
-        } else {
-            Integer id = rs.getInt("id");
-            DBConnection.getConnection().createStatement()
-                .execute("UPDATE voter_count SET `count`=`count`+1 WHERE id=" + id);
-        }
-        rs.close();
+    public static void countVoter(String name, String birthDay, int counter) throws SQLException {
+        preparedStatement.setString(1, name);
+        preparedStatement.setString(2, birthDay);
+        preparedStatement.setInt(3, 1);
+        preparedStatement.addBatch();
+
+        if (counter % batchSize == 0) executeBatch();
+    }
+
+    public static void executeBatch() throws SQLException {
+        preparedStatement.executeBatch();
+        connection.commit();
     }
 
     public static void printVoterCounts() throws SQLException {
-        String sql = "SELECT name, birthDate, `count` FROM voter_count WHERE `count` > 1";
+        //long start = System.currentTimeMillis();
+        int counter = 0;
+        String sql = "select name,birthDate,vote_num from (select name,count,birthDate," +
+                "count(count) as vote_num from voter_count group by name,birthDate order " +
+                "by vote_num Desc) as result where vote_num > 1";
         ResultSet rs = DBConnection.getConnection().createStatement().executeQuery(sql);
+        StringBuilder result = new StringBuilder();
         while (rs.next()) {
-            System.out.println("\t" + rs.getString("name") + " (" +
-                rs.getString("birthDate") + ") - " + rs.getInt("count"));
+            result.append("\t")
+                    .append((counter++))
+                    .append(" - ")
+                    .append(rs.getString("name"))
+                    .append(" ")
+                    .append(rs.getString("birthDate"))
+                    .append(" ")
+                    .append(rs.getInt("vote_num"))
+                    .append("\n");
+            System.out.println(result.toString().isBlank() ? "Cannot Find Any Duplicates" : result.toString());
+            rs.close();
         }
+    }
+
+    public static void customSelect(String name) throws SQLException {
+        //long start = System.currentTimeMillis();
+        String sql = "SELECT name, birthDate FROM voter_count WHERE name ='" + name + "'";
+
+        ResultSet rs = DBConnection.getConnection().createStatement().executeQuery(sql);
+        StringBuilder result = new StringBuilder();
+        while (rs.next()) {
+            result.append("\t")
+                    .append(rs.getString("name"))
+                    .append(" ")
+                    .append(rs.getString("birthDate"))
+                    .append("\n");
+        }
+        System.out.println(result.toString().isBlank() ? "No such element" : result.toString());
+        //System.out.printf("%.3f sec.%n", (double) (System.currentTimeMillis() - start) / 1000);
+        rs.close();
+
+    }
+
+    static void connectionClose() throws SQLException {
+        connection.close();
     }
 }
