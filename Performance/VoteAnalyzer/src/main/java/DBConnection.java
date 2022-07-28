@@ -1,9 +1,8 @@
 import java.sql.*;
 
 public class DBConnection {
-
     private static Connection connection;
-    private static final int batchSize = 4;
+    private static final int batchSize = 40_000;
     private static PreparedStatement preparedStatement = null;
 
     private static String dbName = "learn";
@@ -50,7 +49,7 @@ public class DBConnection {
     }
 
     public static void printVoterCounts() throws SQLException {
-        //long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
         int counter = 0;
         String sql = "select name,birthDate,vote_num from (select name,count,birthDate," +
                 "count(count) as vote_num from voter_count group by name,birthDate order " +
@@ -67,13 +66,14 @@ public class DBConnection {
                     .append(" ")
                     .append(rs.getInt("vote_num"))
                     .append("\n");
-            System.out.println(result.toString().isBlank() ? "Cannot Find Any Duplicates" : result.toString());
-            rs.close();
         }
+        System.out.println(result.toString().isBlank() ? "Cannot Find Any Duplicates" : result.toString());
+        System.out.println(System.currentTimeMillis() - start + " ms");
+        rs.close();
     }
 
     public static void customSelect(String name) throws SQLException {
-        //long start = System.currentTimeMillis();
+        long start = System.currentTimeMillis();
         String sql = "SELECT name, birthDate FROM voter_count WHERE name ='" + name + "'";
 
         ResultSet rs = DBConnection.getConnection().createStatement().executeQuery(sql);
@@ -86,9 +86,8 @@ public class DBConnection {
                     .append("\n");
         }
         System.out.println(result.toString().isBlank() ? "No such element" : result.toString());
-        //System.out.printf("%.3f sec.%n", (double) (System.currentTimeMillis() - start) / 1000);
+        System.out.println(System.currentTimeMillis() - start + " ms");
         rs.close();
-
     }
 
     static void connectionClose() throws SQLException {
